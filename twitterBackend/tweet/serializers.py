@@ -3,9 +3,12 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 
 class TweetSerializer(serializers.ModelSerializer):
+
+    owner = serializers.ReadOnlyField(source = 'owner.username')
+
     class Meta:
         model = Tweet
-        fields = ('id', 'created', 'text')
+        fields = ('id', 'created', 'text', 'owner')
 
 class UserSerializer(serializers.ModelSerializer):
 
