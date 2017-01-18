@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 
 from tweet.models import Tweet
-from tweet.serializers import TweetSerializer, UserSerializer
+from tweet.serializers import TweetSerializer
 from tweet.permissions import IsOwnerOrReadOnly
 
 from rest_framework import generics
@@ -24,16 +24,6 @@ class TweetList(generics.ListCreateAPIView):  #Generic class based view to creat
     def perform_create(self,serializer):                #When creating tweet
         serializer.save(owner = self.request.user)      #Owner of tweet is set as the user that sent the request
 
-class UserList(generics.ListCreateAPIView): #Generic class based view to list users
-
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-class UserDetail(generics.RetrieveAPIView): #Generic class based view to show specific user
-
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    lookup_field = 'username'               #Field can be looked up with using the username
 
 class UserTweets(APIView):                  #View to get tweets from specific user
 

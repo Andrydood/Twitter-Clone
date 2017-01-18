@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
-    'tweet.apps.TweetConfig'
+    'tweet.apps.TweetConfig',
+    'user.apps.UserConfig'
+
 ]
 
 MIDDLEWARE = [

@@ -15,16 +15,21 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from tweet import views
+
+import tweet.views
+import user.views
+
 from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
-    url(r'^tweets/$',views.TweetList.as_view()),
-    url(r'^users/$',views.UserList.as_view()),
-    
-    url(r'^(?P<username>[\w]+)/$',views.UserDetail.as_view()),
-    url(r'^(?P<username>[\w]+)/tweets/$',views.UserTweets.as_view()),
-    url(r'^(?P<username>[\w]+)/tweets/(?P<pk>[0-9]+)/$',views.UserTweetsDetail.as_view()),
+    url(r'^tweets/$',tweet.views.TweetList.as_view()),
+    url(r'^users/$',user.views.UserList.as_view()),
+
+    url(r'^newuser/$',user.views.UserCreate.as_view()),
+
+    url(r'^(?P<username>[\w]+)/$',user.views.UserDetail.as_view()),
+    url(r'^(?P<username>[\w]+)/tweets/$',tweet.views.UserTweets.as_view()),
+    url(r'^(?P<username>[\w]+)/tweets/(?P<pk>[0-9]+)/$',tweet.views.UserTweetsDetail.as_view()),
 
     url(r'^api-auth/', include('rest_framework.urls', namespace = 'rest_framework')), #Allows login to the api
     url(r'^admin/', admin.site.urls),
