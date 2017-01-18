@@ -23,15 +23,17 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
     url(r'^tweets/$',tweet.views.TweetList.as_view()),
-    url(r'^users/$',user.views.UserList.as_view()),
+    url(r'^user/$',user.views.UserList.as_view()),
 
     url(r'^newuser/$',user.views.UserCreate.as_view()),
 
-    url(r'^(?P<username>[\w]+)/$',user.views.UserDetail.as_view()),
-    url(r'^(?P<username>[\w]+)/tweets/$',tweet.views.UserTweets.as_view()),
-    url(r'^(?P<username>[\w]+)/tweets/(?P<pk>[0-9]+)/$',tweet.views.UserTweetsDetail.as_view()),
+    url(r'^user/(?P<username>[\w]+)/$',user.views.UserDetail.as_view()),
+    url(r'^user/(?P<username>[\w]+)/tweets/$',tweet.views.UserTweets.as_view()),
+    url(r'^user/(?P<username>[\w]+)/tweets/(?P<pk>[0-9]+)/$',tweet.views.UserTweetsDetail.as_view()),
+    url(r'^user/(?P<username>[\w]+)/tweets/(?P<pk>[0-9]+)/like$',tweet.views.LikeTweet.as_view()),
+
+    url(r'^admin/', admin.site.urls),
 
     url(r'^api-auth/', include('rest_framework.urls', namespace = 'rest_framework')), #Allows login to the api
-    url(r'^admin/', admin.site.urls),
 ]
 urlpatterns = format_suffix_patterns(urlpatterns)

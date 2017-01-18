@@ -7,4 +7,4 @@ class TweetSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tweet
-        fields = ('id', 'created', 'text', 'owner')
+        fields = ('id', 'created', 'text', 'owner','likes','appreciators')

@@ -71,3 +71,28 @@ class UserTweetsDetail(APIView):         #View to get specific tweet from specif
         tweet = self.getTweet(username,pk);
         tweet.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class LikeTweet(APIView):
+
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def getTweet(self,username,pk):      #Fetch tweet from database
+
+        try:
+            user = User.objects.get(username = username)
+        except User.DoesNotExist:
+            raise Http404
+
+        try:
+            tweet = user.tweets.get(id=pk)
+        except Tweet.DoesNotExist:
+            raise Http404
+
+        return user.tweets.get(id=pk)   #Return tweet with associated id
+
+    def put(self,request,pk,username,format=None):
+
+        tweet = self.getTweet(username,pk)
+        tweet.CountLikes(self.request.user)
+        return Response(status=status.HTTP_201_CREATED)
