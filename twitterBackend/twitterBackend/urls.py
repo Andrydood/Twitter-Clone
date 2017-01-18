@@ -20,10 +20,13 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
     url(r'^tweets/$',views.TweetList.as_view()),
-    url(r'^tweets/(?P<pk>[0-9]+)/$',views.TweetDetail.as_view()),
     url(r'^users/$',views.UserList.as_view()),
-    url(r'^users/(?P<pk>[0-9]+)/$',views.UserDetail.as_view()),
-    url(r'^api-auth/', include('rest_framework.urls', namespace = 'rest_framework')),
+    
+    url(r'^(?P<username>[\w]+)/$',views.UserDetail.as_view()),
+    url(r'^(?P<username>[\w]+)/tweets/$',views.UserTweets.as_view()),
+    url(r'^(?P<username>[\w]+)/tweets/(?P<pk>[0-9]+)/$',views.UserTweetsDetail.as_view()),
+
+    url(r'^api-auth/', include('rest_framework.urls', namespace = 'rest_framework')), #Allows login to the api
     url(r'^admin/', admin.site.urls),
 ]
 urlpatterns = format_suffix_patterns(urlpatterns)

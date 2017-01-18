@@ -12,8 +12,8 @@ class TweetSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
 
-    tweets = serializers.PrimaryKeyRelatedField(many=True, queryset=Tweet.objects.all()) #Tweets shows every tweet associated with this user
+    #tweets = serializers.PrimaryKeyRelatedField(many=True, queryset=Tweet.objects.all()) #Tweets shows every tweet associated with this user
 
     class Meta:
         model = User
-        fields = ('id', 'username','tweets')
+        fields = ('id', 'username')
