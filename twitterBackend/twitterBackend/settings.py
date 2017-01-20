@@ -40,7 +40,8 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'tweet.apps.TweetConfig',
-    'user.apps.UserConfig'
+    'user.apps.UserConfig',
+    'rest_framework.authtoken'
 
 ]
 
@@ -123,3 +124,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+
+    )
+}
