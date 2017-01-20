@@ -33,9 +33,10 @@ urlpatterns = [
     url(r'^user/(?P<username>[\w]+)/tweets/(?P<pk>[0-9]+)/$',tweet.views.UserTweetsDetail.as_view()),
     url(r'^user/(?P<username>[\w]+)/tweets/(?P<pk>[0-9]+)/like/$',tweet.views.LikeTweet.as_view()),
 
+    url(r'^signin/', rest_framework.authtoken.views.obtain_auth_token),
+
     url(r'^admin/', admin.site.urls),
 
     url(r'^api-auth/', include('rest_framework.urls', namespace = 'rest_framework')), #Allows login to the api
-    url(r'^api-token-auth/', rest_framework.authtoken.views.obtain_auth_token),
 ]
 urlpatterns = format_suffix_patterns(urlpatterns)

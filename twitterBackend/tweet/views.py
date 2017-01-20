@@ -67,7 +67,7 @@ class UserTweetsDetail(APIView):         #View to get specific tweet from specif
         return Response(serialized.data)
 
 
-    def delete(self, request, pk, format=None):         #Delete tweet
+    def delete(self, request,username, pk, format=None):         #Delete tweet
         tweet = self.getTweet(username,pk);
         tweet.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

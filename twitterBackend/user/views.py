@@ -3,7 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 from django.contrib.auth.models import User
 
-from user.serializers import UserSerializerIn, UserSerializerOut
+from user.serializers import UserSerializerCreate, UserSerializerOut
 
 from rest_framework import generics
 from rest_framework import permissions
@@ -30,7 +30,7 @@ class UserDetail(generics.RetrieveAPIView): #Generic class based view to show sp
 class UserCreate(APIView): #Class to create user
 
     def post(self, request, format=None):
-        serializer = UserSerializerIn(data=request.data)
+        serializer = UserSerializerCreate(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
