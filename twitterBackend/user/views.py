@@ -13,8 +13,6 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-
-
 class UserList(generics.ListAPIView): #Generic class based view to list users
 
     queryset = User.objects.all()

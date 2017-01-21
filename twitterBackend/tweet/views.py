@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 
 from tweet.models import Tweet
-from tweet.serializers import TweetSerializer
+from tweet.serializers import TweetReadSerializer, TweetMakeSerializer
 from tweet.permissions import IsOwnerOrReadOnly
 
 from rest_framework import generics
@@ -15,10 +15,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-class TweetList(generics.ListCreateAPIView):  #Generic class based view to create tweets
+class TweetList(generics.CreateAPIView):  #Generic class based view to create tweets
 
     queryset = Tweet.objects.all()
-    serializer_class = TweetSerializer
+    serializer_class = TweetMakeSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly) #If user is not the owner, each tweet is read only
 
     def perform_create(self,serializer):                #When creating tweet
@@ -37,7 +37,7 @@ class UserTweets(APIView):                  #View to get tweets from specific us
             raise Http404
 
         tweets = user.tweets.all()
-        serialized = TweetSerializer(tweets,many=True)
+        serialized = TweetReadSerializer(tweets,many=True)
 
         return Response(serialized.data)
 
@@ -62,7 +62,7 @@ class UserTweetsDetail(APIView):         #View to get specific tweet from specif
     def get(self,request,username,pk,format = None):        #GET tweet
 
         tweet = self.getTweet(username,pk);
-        serialized = TweetSerializer(tweet)
+        serialized = TweetReadSerializer(tweet)
 
         return Response(serialized.data)
 
@@ -73,7 +73,7 @@ class UserTweetsDetail(APIView):         #View to get specific tweet from specif
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class LikeTweet(APIView):
+class LikeTweet(APIView):           #PUT to like specific tweet
 
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
@@ -94,5 +94,5 @@ class LikeTweet(APIView):
     def put(self,request,pk,username,format=None):
 
         tweet = self.getTweet(username,pk)
-        tweet.CountLikes(self.request.user)
+        tweet.likeTweet(self.request.user) #Call countlikes function
         return Response(status=status.HTTP_201_CREATED)

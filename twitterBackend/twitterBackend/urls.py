@@ -18,22 +18,22 @@ from django.contrib import admin
 
 import tweet.views
 import user.views
-import rest_framework.authtoken.views
 
+import rest_framework.authtoken.views
 from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
-    url(r'^tweets/$',tweet.views.TweetList.as_view()),
-    url(r'^user/$',user.views.UserList.as_view()),
+    url(r'^makeTweet/$',tweet.views.TweetList.as_view()), #POST to this address to make tweet
 
-    url(r'^newuser/$',user.views.UserCreate.as_view()),
+    url(r'^newuser/$',user.views.UserCreate.as_view()), #POST to this address to make new user
 
-    url(r'^user/(?P<username>[\w]+)/$',user.views.UserDetail.as_view()),
-    url(r'^user/(?P<username>[\w]+)/tweets/$',tweet.views.UserTweets.as_view()),
-    url(r'^user/(?P<username>[\w]+)/tweets/(?P<pk>[0-9]+)/$',tweet.views.UserTweetsDetail.as_view()),
-    url(r'^user/(?P<username>[\w]+)/tweets/(?P<pk>[0-9]+)/like/$',tweet.views.LikeTweet.as_view()),
+    url(r'^user/$',user.views.UserList.as_view()), #GET here for a list of the users
+    url(r'^user/(?P<username>[\w]+)/$',user.views.UserDetail.as_view()), #GET here for details of a user
+    url(r'^user/(?P<username>[\w]+)/tweets/$',tweet.views.UserTweets.as_view()), #GET here for a user's tweets
+    url(r'^user/(?P<username>[\w]+)/tweets/(?P<pk>[0-9]+)/$',tweet.views.UserTweetsDetail.as_view()), #GET here for a user's specific tweet, DELETE if owner
+    url(r'^user/(?P<username>[\w]+)/tweets/(?P<pk>[0-9]+)/like$',tweet.views.LikeTweet.as_view()), #PUT here to like specific tweet
 
-    url(r'^signin/', rest_framework.authtoken.views.obtain_auth_token),
+    url(r'^signin/', rest_framework.authtoken.views.obtain_auth_token), #GET here to return token
 
     url(r'^admin/', admin.site.urls),
 

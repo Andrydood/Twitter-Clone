@@ -13,3 +13,7 @@ class UserSerializerCreate(serializers.ModelSerializer):    #Serializer for crea
     class Meta:
         model = User
         fields = ('username','email','password')
+
+    def create(self, validated_data):
+        user = User.objects.create_user(**validated_data) #When being created, call create user function
+        return user
