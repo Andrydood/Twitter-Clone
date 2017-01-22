@@ -9,6 +9,7 @@ from tweet.permissions import IsOwnerOrReadOnly
 
 from rest_framework import generics
 from rest_framework import permissions
+from rest_framework.authentication import TokenAuthentication
 
 from django.http import Http404
 from rest_framework.views import APIView
@@ -19,15 +20,16 @@ class TweetList(generics.CreateAPIView):  #Generic class based view to create tw
 
     queryset = Tweet.objects.all()
     serializer_class = TweetMakeSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly) #If user is not the owner, each tweet is read only
-
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,) #If user is not the owner, each tweet is read only
+    authentication_classes = (TokenAuthentication,)
     def perform_create(self,serializer):                #When creating tweet
         serializer.save(owner = self.request.user)      #Owner of tweet is set as the user that sent the request
 
 
 class UserTweets(APIView):                  #View to get tweets from specific user
 
-
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    authentication_classes = (TokenAuthentication,)
     def get(self,request,username,format = None):
 
         try:
@@ -42,8 +44,8 @@ class UserTweets(APIView):                  #View to get tweets from specific us
         return Response(serialized.data)
 
 class UserTweetsDetail(APIView):         #View to get specific tweet from specific user
-
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly) #If user is not the owner, each tweet is read only
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly, ) #If user is not the owner, each tweet is read only
 
     def getTweet(self,username,pk):      #Fetch tweet from database
 
@@ -56,7 +58,7 @@ class UserTweetsDetail(APIView):         #View to get specific tweet from specif
             tweet = user.tweets.get(id=pk)
         except Tweet.DoesNotExist:
             raise Http404
-
+        self.check_object_permissions(self.request, user.tweets.get(id=pk))
         return user.tweets.get(id=pk)   #Return tweet with associated id
 
     def get(self,request,username,pk,format = None):        #GET tweet
@@ -76,7 +78,7 @@ class UserTweetsDetail(APIView):         #View to get specific tweet from specif
 class LikeTweet(APIView):           #PUT to like specific tweet
 
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-
+    authentication_classes = (TokenAuthentication,)
     def getTweet(self,username,pk):      #Fetch tweet from database
 
         try:

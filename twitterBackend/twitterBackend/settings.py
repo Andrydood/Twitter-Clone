@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'tweet.apps.TweetConfig',
     'rest_framework.authtoken',
-    'user.apps.UserConfig'
+    'user.apps.UserConfig',
 
 ]
 
@@ -130,5 +130,6 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
-    )
+    ),
+
 }

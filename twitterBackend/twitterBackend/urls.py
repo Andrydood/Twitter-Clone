@@ -31,9 +31,9 @@ urlpatterns = [
     url(r'^user/(?P<username>[\w]+)/$',user.views.UserDetail.as_view()), #GET here for details of a user
     url(r'^user/(?P<username>[\w]+)/tweets/$',tweet.views.UserTweets.as_view()), #GET here for a user's tweets
     url(r'^user/(?P<username>[\w]+)/tweets/(?P<pk>[0-9]+)/$',tweet.views.UserTweetsDetail.as_view()), #GET here for a user's specific tweet, DELETE if owner
-    url(r'^user/(?P<username>[\w]+)/tweets/(?P<pk>[0-9]+)/like$',tweet.views.LikeTweet.as_view()), #PUT here to like specific tweet
+    url(r'^user/(?P<username>[\w]+)/tweets/(?P<pk>[0-9]+)/like/$',tweet.views.LikeTweet.as_view()), #PUT here to like specific tweet
 
-    url(r'^signin/', rest_framework.authtoken.views.obtain_auth_token), #GET here to return token
+    url(r'^login/', rest_framework.authtoken.views.obtain_auth_token), #GET here to return token
 
     url(r'^admin/', admin.site.urls),
 

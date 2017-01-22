@@ -14,12 +14,10 @@ from rest_framework.response import Response
 from rest_framework import status
 
 class UserList(generics.ListAPIView): #Generic class based view to list users
-
     queryset = User.objects.all()
     serializer_class = UserSerializerOut
 
 class UserDetail(generics.RetrieveAPIView): #Generic class based view to show specific user
-
     queryset = User.objects.all()
     serializer_class = UserSerializerOut
     lookup_field = 'username'               #Field can be looked up with using the username
